@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Restaurant Gallery</title>
+</head>
+<body>
+    <h1>Restaurants</h1>
+    <div id="restaurants-container"></div> <!-- Container for dynamically loaded content -->
+
+    <script>
+        // Fetch the restaurant data from your API
+        fetch('http://localhost:3001/restaurants')
+            .then(response => response.json())
+            .then(data => {
+                const container = document.getElementById('restaurants-container');
+                // Iterate over each restaurant and create HTML content
+                data.forEach(restaurant => {
+                    const elem = document.createElement('div');
+                    elem.innerHTML = `
+                        <h2>${restaurant.name}</h2>
+                        <p>Likes: ${restaurant.likes}, Dislikes: ${restaurant.dislikes}</p>
+                        ${restaurant.imageUrl ? `<img src="${'http://localhost:3001/' + restaurant.imageUrl}" alt="${restaurant.name}" style="width: 100px; height: auto;">` : ''}
+                    `;
+                    container.appendChild(elem);
+                });
+            })
+            .catch(error => console.error('Error:', error));
+    </script>
+</body>
+</html>
+
